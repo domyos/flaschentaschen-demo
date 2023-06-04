@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 from Flaschentaschen import Flaschentaschen
-from GameOfLife import GameOfLife
+# from GameOfLife import GameOfLife
+from Snake import Snake
 import time
 
 
@@ -20,7 +21,9 @@ def main():
         canvas = [[color_black if cell == 0 else color_white for cell in row] for row in board]
         flaschentaschen.refresh_screen(canvas)
 
-    game = GameOfLife(canvas_width, canvas_height, render_function)
+    # game = GameOfLife(canvas_width, canvas_height, render_function)
+
+    game = Snake(canvas_width, canvas_height, render_function)
 
     # Start game loop
     while True:
