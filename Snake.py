@@ -1,3 +1,4 @@
+import random
 import keyboard
 
 class Snake:
@@ -8,25 +9,43 @@ class Snake:
 
         self.dx = 1
         self.dy = 0
-        self.x = board_width // 2
-        self.y = board_height // 2
-        print("init")
+        self.length = 1
+        self.body = [self.randomxy()]
+
+        self.food = self.randomxy()
+        self.count = 0
+
+    def randomxy(self):
+        return [random.randint(0, self.board_height - 1), random.randint(0, self.board_width - 1)]
 
     def tick(self):
-        
-        # Clear board
-        board = [[0 for i in range(self.board_width)] for j in range(self.board_height)]
-
-        # Render snake
-        board[self.y][self.x] = 1
+        self.count += 1
 
         # Handle input
-        if keyboard.is_pressed('p'):
-            print("You pressed p")
+        pressed_key = keyboard.read_key()
 
+        # left
+        if pressed_key == 'a':
+            self.body.insert(0, [self.body[0][0], (self.body[0][1] - 1) % self.board_width])
+        # right
+        elif pressed_key == 'd':
+            self.body.insert(0, [self.body[0][0], (self.body[0][1] + 1) % self.board_width])
+        # up
+        elif pressed_key == 'w':
+            self.body.insert(0, [(self.body[0][0] - 1) % self.board_height, self.body[0][1]])
+        # down
+        elif pressed_key == 's':
+            self.body.insert(0, [(self.body[0][0] + 1) % self.board_height, self.body[0][1]])
 
-        self.x += self.dx
-        self.y += self.dy
+        if(self.food == self.body[0] or self.count % 10 == 0):
+            self.length += 1
+            self.food = self.randomxy()
 
-        self.render_function(board)
-        print('tick %d %d'%(self.x, self.y))
+        self.body = self.body[:self.length]
+
+        for i, pos in enumerate(self.body):
+            if(self.body[i] == self.body[0] and i!=0):
+                self.length = 1
+                self.body = [self.randomxy()]
+
+        self.render_function(self.board_width, self.board_height, self.body, self.food)
