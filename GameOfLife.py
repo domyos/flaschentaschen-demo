@@ -9,6 +9,8 @@ class GameOfLife:
         self.board_width = board_width
         self.board_height = board_height
         self.board = self.initialize_board(board_width, board_height)
+        self.last_board = self.board
+        self.second_to_last_board = self.last_board
         self.render_function = render_function
     
     def check_neighbors(self, x, y):
@@ -49,5 +51,10 @@ class GameOfLife:
                     if(neighbours == 3):
                         next_frame[x][y] = 1
 
+        self.second_to_last_board = self.last_board
+        self.last_board = self.board
         self.board = next_frame
         self.render_function(self.board)
+
+        if self.board == self.last_board or self.board == self.second_to_last_board:
+            self.board = self.initialize_board(self.board_width, self.board_height)
