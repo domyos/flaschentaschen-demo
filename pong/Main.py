@@ -3,6 +3,8 @@ import pygame
 from Flaschentaschen import Flaschentaschen
 from Player import Player
 from Ball import Ball
+import os
+os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 Settings.init()
 
@@ -68,7 +70,6 @@ while running:
             playerCollides(currentPlayer.player)
 
     for index, rect in enumerate(Ball.get_border_rects()):
-        pygame.draw.rect(screen, "red", rect)
         if not rect.colliderect(game_rect):
             collision = True
             wallCollides(index)
