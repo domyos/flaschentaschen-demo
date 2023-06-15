@@ -1,17 +1,19 @@
+import pygame
+
 import Settings
 
 
 class Paddle:
-    _posY = 0
+
     _width = Settings.PADDLE_WIDTH
-    _height = Settings.HEIGHT // 5
-    _posX = 0
-    _leftOrRight = True
+    _height = Settings.PADDLE_HEIGHT
 
     def __init__(self, side):
         self._posY = (Settings.HEIGHT // 2)
-        self._posX = 0 if side else Settings.WIDTH - self._width
+        self._posX = 0 if not side else Settings.WIDTH - self._width
         self._leftOrRight = side
+        self.isMoving = False
+        self.dir = 0
 
     def get_posX(self):
         return self._posX
@@ -26,10 +28,9 @@ class Paddle:
         return self._width
 
     def get_rect(self):
-        x1 = 0 if self._leftOrRight else Settings.WIDTH - self._width
         y1 = self._posY - self._height // 2
-        rect = (x1, y1, self._width, self._height)
-        return rect
+        rect = (self._posX, y1, self._width, self._height)
+        return pygame.Rect(rect)
 
     def move(self, isUpOrDown):
         if isUpOrDown:
@@ -39,6 +40,6 @@ class Paddle:
                 self._posY -= 1
         else:
             if self._posY + 1 + (self._height // 2) > Settings.HEIGHT:
-                self._posY = Settings.HEIGHT
+                self._posY = Settings.HEIGHT - (self._height // 2)
             else:
                 self._posY += 1
