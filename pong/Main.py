@@ -1,6 +1,6 @@
 import Settings
 import pygame
-
+from Flaschentaschen import Flaschentaschen
 from Player import Player
 from Ball import Ball
 
@@ -16,7 +16,23 @@ Ball = Ball()
 
 currentPlayer = Players[0]
 
+ip = 'localhost'
+port = 1337
+flaschentaschen = Flaschentaschen(ip, port, canvas_width=Settings.WIDTH, canvas_height=Settings.HEIGHT)
+
 game_rect = pygame.Rect(0, 0, Settings.WIDTH, Settings.HEIGHT)
+
+
+def makeCanvas():
+    canvas = []
+    for y in range(Settings.HEIGHT):
+        canvas.append([])
+        for x in range(Settings.WIDTH):
+            canvas[y].append([])
+            r, g, b, a = screen.get_at((x, y))
+            color = [r, g, b]
+            canvas[y][x] = color
+    flaschentaschen.refresh_screen(canvas)
 
 
 def playerCollides(player):
@@ -61,6 +77,8 @@ while running:
         Ball.move()
 
     pygame.display.flip()
+
+    makeCanvas()
 
     clock.tick(60)  # limits FPS to 60
 
