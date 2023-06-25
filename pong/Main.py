@@ -8,8 +8,6 @@ from Game import Game
 
 pygame.init()
 clock = pygame.time.Clock()
-global running
-running = True
 
 ip = 'localhost'
 port = 1337
@@ -17,26 +15,30 @@ flaschentaschen = Flaschentaschen(ip, port, canvas_width=Settings.WIDTH, canvas_
 
 game = Game(flaschentaschen)
 
-currStage = "menuStage"
 
-selected = 0
-
-menuPoints = {
-    "Spiel starten": 0,
-    "Steuerung": 1,
-    "Spiel beenden": 2,
-}
+def gameOverStage():
+    game.screen.fill("black")
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            game.running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == Settings.ACCEPTSELECTION:
+                game.currStage = "menuStage"
+    font = pygame.font.Font('arial.ttf', Settings.FONTLG)
+    font2 = pygame.font.Font('arial.ttf', Settings.FONTSM)
+    img = font.render("Game Over", False, Settings.ITEM_COLOR)
+    img2 = font2.render("Player 2 hat gewonnen!" if game.Players[0].score >= 10 else "Player 1 hat gewonnen!", False, Settings.ITEM_COLOR)
+    game.screen.blit(img, (Settings.WIDTH // 2 - img.get_width() // 2, Settings.HEIGHT // 2 - img.get_height() // 2))
+    game.screen.blit(img2, (Settings.WIDTH // 2 - img2.get_width() // 2, Settings.HEIGHT // 2 + img.get_height() // 2))
 
 
 def gameStage():
-    global running
-    global currStage
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False
+            game.running = False
         if event.type == pygame.KEYDOWN:
             if event.key == Settings.ACCEPTSELECTION:
-                currStage = "menuStage"
+                game.currStage = "menuStage"
     keys = pygame.key.get_pressed()
     if keys[Settings.PLAYER1_CONTROLS_DOWN]:
         game.Players[0].paddle.isMoving = True
@@ -60,36 +62,33 @@ def gameStage():
 
 def menuStage():
     game.screen.fill("black")
-    global running
-    global selected
-    global currStage
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False
+            game.running = False
         if event.type == pygame.KEYDOWN:
             if event.key == Settings.PLAYER1_CONTROLS_UP:
-                selected = len(menuPoints.keys()) - 1 if selected == 0 else selected - 1
+                game.selected = len(game.menuPoints.keys()) - 1 if game.selected == 0 else game.selected - 1
             if event.key == Settings.PLAYER1_CONTROLS_DOWN:
-                selected = 0 if selected == len(menuPoints.keys()) - 1 else selected + 1
-            if event.key == Settings.ACCEPTSELECTION and currStage == "menuStage":
-                if selected == 2:
+                game.selected = 0 if game.selected == len(game.menuPoints.keys()) - 1 else game.selected + 1
+            if event.key == Settings.ACCEPTSELECTION and game.currStage == "menuStage":
+                if game.selected == 2:
                     pygame.quit()
-                elif selected == 1:
-                    currStage = "helpStage"
-                elif selected == 0:
+                elif game.selected == 1:
+                    game.currStage = "helpStage"
+                elif game.selected == 0:
                     game.Players[0].score = 0
                     game.Players[1].score = 0
-                    currStage = "gameStage"
+                    game.currStage = "gameStage"
     fontLg = pygame.font.Font("arial.ttf", Settings.FONTLG)
     fontSm = pygame.font.Font("arial.ttf", Settings.FONTSM)
     img1 = fontLg.render("PyPong", False, Settings.ITEM_COLOR)
     game.screen.blit(img1, (Settings.WIDTH // 2 - img1.get_width() // 2,
                             Settings.HEIGHT // 10))
-    for index, key in enumerate(menuPoints.keys()):
+    for index, key in enumerate(game.menuPoints.keys()):
         img = fontSm.render(key, False, Settings.ITEM_COLOR)
         game.screen.blit(img,
                          (Settings.WIDTH // 2 - img.get_width() // 2, (index + 3) * (Settings.HEIGHT // 10)))
-        if selected == menuPoints[key]:
+        if game.selected == game.menuPoints[key]:
             xPosDot = Settings.WIDTH // 5
             yPosDot = (index + 3) * (Settings.HEIGHT // 10) + Settings.BALL_RADIUS * 2
             pygame.draw.circle(game.screen, Settings.ITEM_COLOR, (xPosDot, yPosDot), Settings.BALL_RADIUS)
@@ -99,16 +98,13 @@ def menuStage():
 
 def helpStage():
     game.screen.fill("black")
-    global running
-    global currStage
-    global selected
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False
+            game.running = False
         if event.type == pygame.KEYDOWN:
             if event.key == Settings.ACCEPTSELECTION:
-                selected = 0
-                currStage = "menuStage"
+                game.selected = 0
+                game.currStage = "menuStage"
     fontSm = pygame.font.Font("arial.ttf", Settings.FONTSM)
     imgs = [
         fontSm.render("Steuerung:", False, Settings.ITEM_COLOR),
@@ -125,14 +121,19 @@ def helpStage():
         game.screen.blit(img, (1, index * Settings.HEIGHT // 10))
 
 
-while running:
+while game.running:
     clock.tick(60)  # limits FPS to 60
-    if currStage == "menuStage":
+    if game.currStage == "menuStage":
         menuStage()
-    elif currStage == "gameStage":
-        gameStage()
-    elif currStage == "helpStage":
+    elif game.currStage == "gameStage":
+        if game.Players[0].score >= 10 or game.Players[1].score >= 10:
+            game.currStage = "gameOverStage"
+        else:
+            gameStage()
+    elif game.currStage == "helpStage":
         helpStage()
+    elif game.currStage == "gameOverStage":
+        gameOverStage()
     game.makeCanvas()
     pygame.display.flip()
 pygame.quit()

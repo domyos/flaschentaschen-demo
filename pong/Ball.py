@@ -13,12 +13,12 @@ class Ball:
     _direction = True
     _angle = 0
 
-    def __init__(self):
+    def __init__(self, player):
         self._posX = Settings.WIDTH // 2
         self._posY = Settings.HEIGHT // 2
-        self._direction = True
+        self._direction = player
         self._angle = random.randint(-80, 80)
-        self.speedX = 1
+        self.speedX = 1 if self._direction else -1
 
     def get_center(self):
         return list([self._posX, self._posY])

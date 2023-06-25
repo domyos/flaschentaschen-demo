@@ -1,3 +1,5 @@
+import random
+
 import pygame
 
 import Settings
@@ -10,9 +12,9 @@ class Game:
         self.screen = pygame.display.set_mode((Settings.WIDTH, Settings.HEIGHT))
 
         self.Players = (Player(False), Player(True))
-        self.Ball = Ball()
-
-        self.currentPlayer = self.Players[1]
+        newPlayer = True if random.randint(0, 1) == 0 else False
+        self.currentPlayer = self.Players[1] if newPlayer else self.Players[0]
+        self.Ball = Ball(newPlayer)
 
         self.game_rect = pygame.Rect(0, 0, Settings.WIDTH, Settings.HEIGHT)
         self.flaschentaschen = flaschentaschen
@@ -22,6 +24,14 @@ class Game:
         self.img2 = self.font.render(str(self.Players[1].score), True, (255, 255, 255))
 
         self.isColliding = False
+        self.running = True
+        self.currStage = "menuStage"
+        self.selected = 0
+        self.menuPoints = {
+            "Spiel starten": 0,
+            "Steuerung": 1,
+            "Spiel beenden": 2
+        }
 
     def makeCanvas(self):
         canvas = []
@@ -50,8 +60,9 @@ class Game:
         else:
             curr = self.currentPlayer.player
             self.Players[1 if curr else 0].score += 1
-            self.currentPlayer = self.Players[1]
-            self.Ball = Ball()
+            newPlayer = True if random.randint(0, 1) == 0 else False
+            self.currentPlayer = self.Players[1] if newPlayer else self.Players[0]
+            self.Ball = Ball(newPlayer)
 
     def gameStep(self):
         self.screen.fill("black")
@@ -62,7 +73,7 @@ class Game:
             pygame.draw.rect(self.screen, Settings.ITEM_COLOR, player.paddle.get_rect())
 
         ballNearPlayer = self.Ball.getX() <= Settings.PADDLE_WIDTH or (
-                    Settings.WIDTH - self.Ball.getX()) <= Settings.PADDLE_WIDTH
+                Settings.WIDTH - self.Ball.getX()) <= Settings.PADDLE_WIDTH
 
         if not self.isColliding and ballNearPlayer:
             if not self.currentPlayer.player and self.Players[0].paddle.get_rect().colliderect(
