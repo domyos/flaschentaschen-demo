@@ -34,6 +34,9 @@ def gameStage():
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == Settings.ACCEPTSELECTION:
+                currStage = "menuStage"
     keys = pygame.key.get_pressed()
     if keys[Settings.PLAYER1_CONTROLS_DOWN]:
         game.Players[0].paddle.isMoving = True
@@ -51,8 +54,6 @@ def gameStage():
         game.Players[1].paddle.dir = 1
     else:
         game.Players[1].paddle.isMoving = False
-    if keys[Settings.ACCEPTSELECTION]:
-        currStage = "menuStage"
 
     game.gameStep()
 
@@ -71,7 +72,7 @@ def menuStage():
                 selected = len(menuPoints.keys()) - 1 if selected == 0 else selected - 1
             if event.key == Settings.PLAYER1_CONTROLS_DOWN:
                 selected = 0 if selected == len(menuPoints.keys()) - 1 else selected + 1
-            if event.key == Settings.ACCEPTSELECTION:
+            if event.key == Settings.ACCEPTSELECTION and currStage == "menuStage":
                 if selected == 2:
                     pygame.quit()
                 elif selected == 1:
