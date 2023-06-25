@@ -59,7 +59,6 @@ def gameStage():
 
 
 def menuStage():
-    print("menuStage")
     game.screen.fill("black")
     global running
     global selected
@@ -78,6 +77,8 @@ def menuStage():
                 elif selected == 1:
                     currStage = "helpStage"
                 elif selected == 0:
+                    game.Players[0].score = 0
+                    game.Players[1].score = 0
                     currStage = "gameStage"
     fontLg = pygame.font.Font("arial.ttf", Settings.FONTLG)
     fontSm = pygame.font.Font("arial.ttf", Settings.FONTSM)

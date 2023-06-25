@@ -37,16 +37,13 @@ class Game:
     def playerCollides(self, player):
         playerPosY = self.Players[1 if player else 0].paddle.get_posY()
         ballPosY = self.Ball.getY()
-        print(player, playerPosY, ballPosY)
         relativeIntersectY = playerPosY - ballPosY
         normalizedRelativeIntersectionY = (relativeIntersectY / (Settings.PADDLE_HEIGHT / 2))
-        bounceAngle = normalizedRelativeIntersectionY * Settings.MAXBOUNCE *-1
+        bounceAngle = normalizedRelativeIntersectionY * Settings.MAXBOUNCE * -1
         self.Ball.speedX *= -1
         self.Ball.setAngle(bounceAngle)
-        print(bounceAngle)
 
     def wallCollides(self, ind):
-        # print(f"colling {'top' if ind == 0 else 'bottom' if ind == 1 else 'left' if ind == 2 else 'right'} Wall")
         if ind <= 1:
             currAngle = self.Ball.getAngle()
             self.Ball.setAngle(360 - currAngle)
@@ -64,7 +61,8 @@ class Game:
         for player in self.Players:
             pygame.draw.rect(self.screen, Settings.ITEM_COLOR, player.paddle.get_rect())
 
-        ballNearPlayer = self.Ball.getX() <= Settings.PADDLE_WIDTH or (Settings.WIDTH - self.Ball.getX()) <= Settings.PADDLE_WIDTH
+        ballNearPlayer = self.Ball.getX() <= Settings.PADDLE_WIDTH or (
+                    Settings.WIDTH - self.Ball.getX()) <= Settings.PADDLE_WIDTH
 
         if not self.isColliding and ballNearPlayer:
             if not self.currentPlayer.player and self.Players[0].paddle.get_rect().colliderect(
@@ -77,7 +75,7 @@ class Game:
                 self.playerCollides(self.currentPlayer.player)
         if self.isColliding and not self.Players[0].paddle.get_rect().colliderect(
                 self.Ball.get_border_rects()[2]) and not self.Players[1].paddle.get_rect().colliderect(
-                self.Ball.get_border_rects()[3]):
+            self.Ball.get_border_rects()[3]):
             self.isColliding = False
             self.currentPlayer = self.Players[0 if self.currentPlayer.player else 1]
 
