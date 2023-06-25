@@ -32,7 +32,7 @@ class Game:
                 r, g, b, a = self.screen.get_at((x, y))
                 color = [r, g, b]
                 canvas[y][x] = color
-        # self.flaschentaschen.refresh_screen(canvas)
+        self.flaschentaschen.refresh_screen(canvas)
 
     def playerCollides(self, player):
         playerPosY = self.Players[1 if player else 0].paddle.get_posY()
