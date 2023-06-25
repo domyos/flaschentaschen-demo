@@ -1,8 +1,8 @@
 import pygame
 
-from pong import Settings
-from pong.Ball import Ball
-from pong.Player import Player
+import Settings
+from Ball import Ball
+from Player import Player
 
 
 class Game:
@@ -17,7 +17,7 @@ class Game:
         self.game_rect = pygame.Rect(0, 0, Settings.WIDTH, Settings.HEIGHT)
         self.flaschentaschen = flaschentaschen
 
-        self.font = pygame.font.SysFont(None, 24)
+        self.font = pygame.font.Font("arial.ttf", 24)
         self.img1 = self.font.render(str(self.Players[0].score), True, (255, 255, 255))
         self.img2 = self.font.render(str(self.Players[1].score), True, (255, 255, 255))
 

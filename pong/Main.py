@@ -1,9 +1,9 @@
 import Settings
 import pygame
 from Flaschentaschen import Flaschentaschen
-from pong.Game import Game
+from Game import Game
 
-# import o
+# import os
 # os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 pygame.init()
@@ -26,6 +26,7 @@ menuPoints = {
     "Steuerung": 1,
     "Spiel beenden": 2,
 }
+
 
 def gameStage():
     global running
@@ -56,6 +57,7 @@ def gameStage():
 
 
 def menuStage():
+    print("menuStage")
     game.screen.fill("black")
     global running
     global selected
@@ -75,20 +77,20 @@ def menuStage():
                     currStage = "helpStage"
                 elif selected == 0:
                     currStage = "gameStage"
-    fontLg = pygame.font.SysFont("Arial", Settings.FONTLG)
-    fontSm = pygame.font.SysFont("Arial", Settings.FONTSM)
-    img1 = fontLg.render("PyPong", True, Settings.ITEM_COLOR)
+    fontLg = pygame.font.Font("arial.ttf", Settings.FONTLG)
+    fontSm = pygame.font.Font("arial.ttf", Settings.FONTSM)
+    img1 = fontLg.render("PyPong", False, Settings.ITEM_COLOR)
     game.screen.blit(img1, (Settings.WIDTH // 2 - img1.get_width() // 2,
                             Settings.HEIGHT // 10))
     for index, key in enumerate(menuPoints.keys()):
-        img = fontSm.render(key, True, Settings.ITEM_COLOR)
+        img = fontSm.render(key, False, Settings.ITEM_COLOR)
         game.screen.blit(img,
                          (Settings.WIDTH // 2 - img.get_width() // 2, (index + 3) * (Settings.HEIGHT // 10)))
         if selected == menuPoints[key]:
             xPosDot = Settings.WIDTH // 5
             yPosDot = (index + 3) * (Settings.HEIGHT // 10) + Settings.BALL_RADIUS * 2
             pygame.draw.circle(game.screen, Settings.ITEM_COLOR, (xPosDot, yPosDot), Settings.BALL_RADIUS)
-
+    game.makeCanvas()
     pygame.display.flip()
 
 
@@ -104,21 +106,20 @@ def helpStage():
             if event.key == Settings.ACCEPTSELECTION:
                 selected = 0
                 currStage = "menuStage"
-    fontSm = pygame.font.SysFont("Arial", Settings.FONTSM)
+    fontSm = pygame.font.Font("arial.ttf", Settings.FONTSM)
     imgs = [
-        fontSm.render("Steuerung:", True, Settings.ITEM_COLOR),
-        fontSm.render("Spieler 1", True, Settings.ITEM_COLOR),
-        fontSm.render("Hoch: W", True, Settings.ITEM_COLOR),
-        fontSm.render("Runter: S", True, Settings.ITEM_COLOR),
-        fontSm.render("Spieler 2", True, Settings.ITEM_COLOR),
-        fontSm.render("Hoch: T", True, Settings.ITEM_COLOR),
-        fontSm.render("Runter: G", True, Settings.ITEM_COLOR),
-        fontSm.render("Beide", True, Settings.ITEM_COLOR),
-        fontSm.render("Bestätigen/Spiel beenden: Enter", True, Settings.ITEM_COLOR)
+        fontSm.render("Steuerung:", False, Settings.ITEM_COLOR),
+        fontSm.render("Spieler 1", False, Settings.ITEM_COLOR),
+        fontSm.render("Hoch: W", False, Settings.ITEM_COLOR),
+        fontSm.render("Runter: S", False, Settings.ITEM_COLOR),
+        fontSm.render("Spieler 2", False, Settings.ITEM_COLOR),
+        fontSm.render("Hoch: T", False, Settings.ITEM_COLOR),
+        fontSm.render("Runter: G", False, Settings.ITEM_COLOR),
+        fontSm.render("Beide", False, Settings.ITEM_COLOR),
+        fontSm.render("Bestätigen/Spiel beenden: Enter", False, Settings.ITEM_COLOR)
     ]
     for index, img in enumerate(imgs):
         game.screen.blit(img, (1, index * Settings.HEIGHT // 10))
-    pygame.display.flip()
 
 
 while running:
@@ -129,4 +130,6 @@ while running:
         gameStage()
     elif currStage == "helpStage":
         helpStage()
+    game.makeCanvas()
+    pygame.display.flip()
 pygame.quit()
