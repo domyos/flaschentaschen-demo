@@ -37,9 +37,9 @@ class Paddle:
             if self._posY - 1 - (self._height // 2) < 0:
                 self._posY = self._height // 2
             else:
-                self._posY -= 1
+                self._posY -= 1 * Settings.SPEED
         else:
             if self._posY + 1 + (self._height // 2) > Settings.HEIGHT:
                 self._posY = Settings.HEIGHT - (self._height // 2)
             else:
-                self._posY += 1
+                self._posY += 1 * Settings.SPEED

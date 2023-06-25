@@ -34,8 +34,8 @@ class Ball:
         return [rect1, rect2, rect3, rect4]
 
     def move(self):
-        newX = math.cos(Settings.degToRad(self._angle)) * self.speedX
-        newY = math.sin(Settings.degToRad(self._angle))
+        newX = math.cos(Settings.degToRad(self._angle)) * self.speedX * Settings.SPEED
+        newY = math.sin(Settings.degToRad(self._angle)) * Settings.SPEED
         posX = self._posX + newX
         posY = self._posY + newY
         self._posX = posX
@@ -49,3 +49,6 @@ class Ball:
 
     def getY(self):
         return self._posY
+
+    def getX(self):
+        return self._posX

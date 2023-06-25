@@ -32,7 +32,7 @@ class Game:
                 r, g, b, a = self.screen.get_at((x, y))
                 color = [r, g, b]
                 canvas[y][x] = color
-        self.flaschentaschen.refresh_screen(canvas)
+        # self.flaschentaschen.refresh_screen(canvas)
 
     def playerCollides(self, player):
         playerPosY = self.Players[1 if player else 0].paddle.get_posY()
@@ -64,7 +64,9 @@ class Game:
         for player in self.Players:
             pygame.draw.rect(self.screen, Settings.ITEM_COLOR, player.paddle.get_rect())
 
-        if not self.isColliding:
+        ballNearPlayer = self.Ball.getX() <= Settings.PADDLE_WIDTH or (Settings.WIDTH - self.Ball.getX()) <= Settings.PADDLE_WIDTH
+
+        if not self.isColliding and ballNearPlayer:
             if not self.currentPlayer.player and self.Players[0].paddle.get_rect().colliderect(
                     self.Ball.get_border_rects()[2]):
                 self.isColliding = True
@@ -92,8 +94,8 @@ class Game:
             self.Players[1].paddle.move(False)
         if self.Players[1].paddle.isMoving and self.Players[1].paddle.dir == 1:
             self.Players[1].paddle.move(True)
-        img1 = self.font.render(str(self.Players[0].score), True, (255, 255, 255))
-        img2 = self.font.render(str(self.Players[1].score), True, (255, 255, 255))
+        img1 = self.font.render(str(self.Players[0].score), False, (255, 255, 255))
+        img2 = self.font.render(str(self.Players[1].score), False, (255, 255, 255))
         self.screen.blit(img1, (100, 1))
         self.screen.blit(img2, (1, 1))
         self.makeCanvas()
