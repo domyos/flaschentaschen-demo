@@ -126,10 +126,7 @@ while game.running:
     if game.currStage == "menuStage":
         menuStage()
     elif game.currStage == "gameStage":
-        if game.Players[0].score >= 10 or game.Players[1].score >= 10:
-            game.currStage = "gameOverStage"
-        else:
-            gameStage()
+        gameStage()
     elif game.currStage == "helpStage":
         helpStage()
     elif game.currStage == "gameOverStage":

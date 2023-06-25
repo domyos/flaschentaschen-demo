@@ -60,6 +60,9 @@ class Game:
         else:
             curr = self.currentPlayer.player
             self.Players[1 if curr else 0].score += 1
+            if self.Players[1 if curr else 0].score == 10:
+                self.currStage = "gameOverStage"
+                return
             newPlayer = True if random.randint(0, 1) == 0 else False
             self.currentPlayer = self.Players[1] if newPlayer else self.Players[0]
             self.Ball = Ball(newPlayer)
