@@ -34,24 +34,25 @@ def gameStage():
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        if event.type == pygame.KEYDOWN:
-            if event.key == Settings.PLAYER1_CONTROLS_DOWN:
-                game.Players[0].paddle.isMoving = True
-                game.Players[0].paddle.dir = 0
-            if event.key == Settings.PLAYER1_CONTROLS_UP:
-                game.Players[0].paddle.isMoving = True
-                game.Players[0].paddle.dir = 1
-            if event.key == Settings.PLAYER2_CONTROLS_DOWN:
-                game.Players[1].paddle.isMoving = True
-                game.Players[1].paddle.dir = 0
-            if event.key == Settings.PLAYER2_CONTROLS_UP:
-                game.Players[1].paddle.isMoving = True
-                game.Players[1].paddle.dir = 1
-            if event.key == Settings.ACCEPTSELECTION:
-                currStage = "menuStage"
-        if event.type == pygame.KEYUP:
-            game.Players[0].paddle.isMoving = False
-            game.Players[1].paddle.isMoving = False
+    keys = pygame.key.get_pressed()
+    if keys[Settings.PLAYER1_CONTROLS_DOWN]:
+        game.Players[0].paddle.isMoving = True
+        game.Players[0].paddle.dir = 0
+    elif keys[Settings.PLAYER1_CONTROLS_UP]:
+        game.Players[0].paddle.isMoving = True
+        game.Players[0].paddle.dir = 1
+    else:
+        game.Players[0].paddle.isMoving = False
+    if keys[Settings.PLAYER2_CONTROLS_DOWN]:
+        game.Players[1].paddle.isMoving = True
+        game.Players[1].paddle.dir = 0
+    elif keys[Settings.PLAYER2_CONTROLS_UP]:
+        game.Players[1].paddle.isMoving = True
+        game.Players[1].paddle.dir = 1
+    else:
+        game.Players[1].paddle.isMoving = False
+    if keys[Settings.ACCEPTSELECTION]:
+        currStage = "menuStage"
 
     game.gameStep()
 
