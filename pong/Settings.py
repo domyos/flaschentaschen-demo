@@ -17,11 +17,15 @@ BALL_RADIUS = 3
 
 ITEM_COLOR = (255, 255, 255)
 
+# Player 1 controls
 PLAYER1_CONTROLS_UP = pygame.K_w
 PLAYER1_CONTROLS_DOWN = pygame.K_s
-PLAYER2_CONTROLS_UP = pygame.K_t
-PLAYER2_CONTROLS_DOWN = pygame.K_g
-ACCEPTSELECTION = pygame.K_RETURN
+ACCEPTSELECTION1 = pygame.K_v
+
+# Player 2 controls
+PLAYER2_CONTROLS_UP = pygame.K_UP
+PLAYER2_CONTROLS_DOWN = pygame.K_DOWN
+ACCEPTSELECTION2 = pygame.K_COMMA
 
 def degToRad(angle):
     return angle * math.pi / 180

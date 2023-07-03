@@ -22,7 +22,7 @@ def gameOverStage():
         if event.type == pygame.QUIT:
             game.running = False
         if event.type == pygame.KEYDOWN:
-            if event.key == Settings.ACCEPTSELECTION:
+            if event.key == Settings.ACCEPTSELECTION1 or event.key == Settings.ACCEPTSELECTION2:
                 game.currStage = "menuStage"
     font = pygame.font.Font('arial.ttf', Settings.FONTLG)
     font2 = pygame.font.Font('arial.ttf', Settings.FONTSM)
@@ -37,7 +37,7 @@ def gameStage():
         if event.type == pygame.QUIT:
             game.running = False
         if event.type == pygame.KEYDOWN:
-            if event.key == Settings.ACCEPTSELECTION:
+            if event.key == Settings.ACCEPTSELECTION1 or event.key == Settings.ACCEPTSELECTION2:
                 game.currStage = "menuStage"
     keys = pygame.key.get_pressed()
     if keys[Settings.PLAYER1_CONTROLS_DOWN]:
@@ -66,11 +66,11 @@ def menuStage():
         if event.type == pygame.QUIT:
             game.running = False
         if event.type == pygame.KEYDOWN:
-            if event.key == Settings.PLAYER1_CONTROLS_UP:
+            if event.key == Settings.PLAYER1_CONTROLS_UP or event.key == Settings.PLAYER2_CONTROLS_UP:
                 game.selected = len(game.menuPoints.keys()) - 1 if game.selected == 0 else game.selected - 1
-            if event.key == Settings.PLAYER1_CONTROLS_DOWN:
+            if event.key == Settings.PLAYER1_CONTROLS_DOWN or event.key == Settings.PLAYER2_CONTROLS_DOWN:
                 game.selected = 0 if game.selected == len(game.menuPoints.keys()) - 1 else game.selected + 1
-            if event.key == Settings.ACCEPTSELECTION and game.currStage == "menuStage":
+            if event.key == Settings.ACCEPTSELECTION1 or event.key == Settings.ACCEPTSELECTION2 and game.currStage == "menuStage":
                 if game.selected == 2:
                     pygame.quit()
                 elif game.selected == 1:
@@ -102,7 +102,7 @@ def helpStage():
         if event.type == pygame.QUIT:
             game.running = False
         if event.type == pygame.KEYDOWN:
-            if event.key == Settings.ACCEPTSELECTION:
+            if event.key == Settings.ACCEPTSELECTION1 or event.key == Settings.ACCEPTSELECTION2:
                 game.selected = 0
                 game.currStage = "menuStage"
     fontSm = pygame.font.Font("arial.ttf", Settings.FONTSM)
