@@ -6,6 +6,8 @@ import Settings
 from Ball import Ball
 from Player import Player
 
+import datetime
+
 
 class Game:
     def __init__(self, flaschentaschen):
@@ -34,15 +36,23 @@ class Game:
         }
 
     def makeCanvas(self):
+        a = datetime.datetime.now()
+        # array2D = pygame.surfarray.array2d(self.screen)
+        # print(array2D)
+        # print(pygame.PixelArray(self.screen)[0,0])
         canvas = []
         for y in range(Settings.HEIGHT):
             canvas.append([])
             for x in range(Settings.WIDTH):
                 canvas[y].append([])
-                r, g, b, a = self.screen.get_at((x, y))
-                color = [r, g, b]
-                canvas[y][x] = color
+                # r, g, b, a = self.screen.get_at((x, y))
+                # color = [r, g, b]
+                # canvas[y][x] = color
+                canvas[y][x] = self.screen.get_at((x, y))[:3]
         self.flaschentaschen.refresh_screen(canvas)
+        b = datetime.datetime.now()
+        print(b-a)
+
 
     def playerCollides(self, player):
         playerPosY = self.Players[1 if player else 0].paddle.get_posY()
