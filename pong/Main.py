@@ -122,7 +122,7 @@ def helpStage():
 
 
 while game.running:
-    clock.tick(60)  # limits FPS to 60
+    clock.tick(20)  # limits FPS to 20
     if game.currStage == "menuStage":
         menuStage()
     elif game.currStage == "gameStage":
