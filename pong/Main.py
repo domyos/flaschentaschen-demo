@@ -9,7 +9,7 @@ from Game import Game
 pygame.init()
 clock = pygame.time.Clock()
 
-ip = 'localhost'
+ip = '192.168.1.23'
 port = 1337
 flaschentaschen = Flaschentaschen(ip, port, canvas_width=Settings.WIDTH, canvas_height=Settings.HEIGHT)
 

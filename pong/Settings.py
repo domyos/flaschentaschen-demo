@@ -2,8 +2,8 @@ import math
 
 import pygame
 
-WIDTH = 128
-HEIGHT = 96
+WIDTH = 192
+HEIGHT = 128
 PADDLE_WIDTH = 5
 PADDLE_HEIGHT = 24
 SPEED = 1
