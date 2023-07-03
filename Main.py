@@ -7,10 +7,10 @@ import time
 
 def main():
     # Initialize Flaschentaschen screen
-    ip = 'localhost'
+    ip = '192.168.1.23'
     port = 1337
-    canvas_width = 128
-    canvas_height = 64
+    canvas_width = 192
+    canvas_height = 128
     flaschentaschen = Flaschentaschen(ip, port, canvas_width=canvas_width, canvas_height=canvas_height)
 
     # Initialize game
